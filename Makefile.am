@@ -33,7 +33,8 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = lemma.pc
 
 SUBDIRS=\
-	qsat
+	qsat \
+	attribute_map
 
 EXTRA_DIST=\
         COPYING \

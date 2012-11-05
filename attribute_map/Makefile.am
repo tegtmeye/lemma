@@ -23,39 +23,9 @@
 #  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-AC_PREREQ(2.59)
-AC_INIT(lemma, 0.0.1)
-AC_CONFIG_SRCDIR([Makefile.am])
-AM_CONFIG_HEADER(config.h)
-AC_CONFIG_AUX_DIR(config)
-AC_CANONICAL_SYSTEM
-AM_INIT_AUTOMAKE([foreign tar-pax])
-AC_CONFIG_MACRO_DIR([m4])
+pkginclude_HEADERS= \
+	attribute_map.h
 
-# Checks for programs.
-
-AC_PROG_CC
-AC_PROG_CXX
-AC_PROG_INSTALL
-
-# We need boost
-BOOST_REQUIRE([1.46])
-
-# Check for single testsuite                                                    
-AC_ARG_WITH([single-testsuite],
-[AS_HELP_STRING([--with-single-testsuite],
-        [single testsuite with XML output @<:@default=no@:>@])],
-[case "${withval}" in
-  yes) ;;
-  no) ;;
-  *) AC_MSG_ERROR([bad value ${withval} for --with-single-testsuite]) ;;
-esac],[with_single_testsuite=no])
-AM_CONDITIONAL([SINGLE_TESTSUITE], [test "x$with_single_testsuite" == xyes])
-
-AC_CONFIG_FILES( \
-		 lemma.pc \
-		 qsat/Makefile \
-		 attribute_map/Makefile \
-		 Makefile)
-
-AC_OUTPUT
+nobase_pkginclude_HEADERS=\
+	attribute_map/attribute_map.h \
+	attribute_map/attribute_requirements.h

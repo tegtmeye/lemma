@@ -25,12 +25,13 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LEMMA_QSAT_QSAT_H
-#define LEMMA_QSAT_QSAT_H
+#ifndef LEMMA_ATTRIBUTE_MAP_H
+#define LEMMA_ATTRIBUTE_MAP_H
 
 #if defined(__cplusplus)
 
-#include "lemma/qsat/basic_channel.h"
+#include "lemma/attribute_map/attribute_requirements.h"
+#include "lemma/attribute_map/attribute_map.h"
 
 #endif
 

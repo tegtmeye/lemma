@@ -25,8 +25,8 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef QSAT_BASIC_CHANNEL_H
-#define QSAT_BASIC_CHANNEL_H
+#ifndef LEMMA_QSAT_BASIC_CHANNEL_H
+#define LEMMA_QSAT_BASIC_CHANNEL_H
 
 #include <boost/units/quantity.hpp>
 
@@ -45,6 +45,7 @@
  *  \brief Implementation of basic_channel modeling Channel concept
  */
 
+namespace lemma {
 namespace qsat {
 
 namespace b = boost;
@@ -1821,5 +1822,7 @@ range_insert_thunk(iterator position, InputIterator first, InputIterator last,
 
 
 }
+}
+
 
 #endif
