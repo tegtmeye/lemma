@@ -1,0 +1,4 @@
+lemma
+=====
+
+Stuff Worth Abstracting
