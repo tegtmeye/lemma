@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #  Copyright (c) 2012, Mike Tegtmeyer
 #  All rights reserved.
 #  Redistribution and use in source and binary forms, with or without
@@ -23,27 +25,9 @@
 #  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-if SINGLE_TESTSUITE
-MAYBE_TEST=tests
-else
-MAYBE_TEST=
-endif
+\rm -f lemma_test.xml
 
-ACLOCAL_AMFLAGS = -I m4
+#./lemma_test --output_format=XML --log_level=all --report_level=no > lemma_test.xml
 
-pkginclude_HEADERS=\
-	lemma.h
+exit `./lemma_test --output_format=XML --log_level=all --report_level=no > lemma_test.xml && test -f lemma_test.xml`
 
-
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = lemma.pc
-
-SUBDIRS=\
-	qsat \
-	attribute_map \
-	$(MAYBE_TEST)
-
-EXTRA_DIST=\
-        COPYING \
-        INSTALL \
-	README.md

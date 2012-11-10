@@ -23,27 +23,37 @@
 #  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-if SINGLE_TESTSUITE
-MAYBE_TEST=tests
-else
-MAYBE_TEST=
-endif
-
-ACLOCAL_AMFLAGS = -I m4
-
-pkginclude_HEADERS=\
-	lemma.h
+noinst_HEADERS=
 
 
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = lemma.pc
+qsat_testdir=$(top_srcdir)/qsat/tests
+qsat_tests=\
+	$(qsat_testdir)/test_types.h \
+	$(qsat_testdir)/basic_channel_test.cc \
+	$(qsat_testdir)/basic_subchannel_test.cc
 
-SUBDIRS=\
-	qsat \
-	attribute_map \
-	$(MAYBE_TEST)
 
-EXTRA_DIST=\
-        COPYING \
-        INSTALL \
-	README.md
+check_PROGRAMS= \
+	lemma_test
+
+
+lemma_test_SOURCES=\
+	master_suite.cc \
+	$(qsat_tests)
+
+lemma_test_LDFLAGS=$(BOOST_UNIT_TEST_FRAMEWORK_LDFLAGS)
+lemma_test_LDADD=$(BOOST_UNIT_TEST_FRAMEWORK_LIBS)
+
+AM_CPPFLAGS=-pedantic -ansi -Wall -Werror -I$(top_srcdir) $(BOOST_CPPFLAGS)
+
+TESTS= \
+	lemma_test_wrapper.sh
+
+EXTRA_DIST= \
+	lemma_test_wrapper.sh
+
+CLEANFILES= \
+	lemma_test.xml
+
+DISTCLEANFILES= \
+	lemma_test.xml

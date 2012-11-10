@@ -23,27 +23,24 @@
 #  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-if SINGLE_TESTSUITE
-MAYBE_TEST=tests
-else
-MAYBE_TEST=
-endif
+master_suite=$(top_srcdir)/tests/master_suite.cc
 
-ACLOCAL_AMFLAGS = -I m4
+check_PROGRAMS=\
+	basic_channel_test \
+	basic_subchannel_test
 
-pkginclude_HEADERS=\
-	lemma.h
+basic_channel_test_SOURCES=$(master_suite) \
+	basic_channel_test.cc test_types.h
+basic_channel_test_LDFLAGS=$(BOOST_UNIT_TEST_FRAMEWORK_LDFLAGS)
+basic_channel_test_LDADD=$(BOOST_UNIT_TEST_FRAMEWORK_LIBS)
 
+basic_subchannel_test_SOURCES=$(master_suite) \
+	basic_subchannel_test.cc test_types.h
+basic_subchannel_test_LDFLAGS=$(BOOST_UNIT_TEST_FRAMEWORK_LDFLAGS)
+basic_subchannel_test_LDADD=$(BOOST_UNIT_TEST_FRAMEWORK_LIBS)
 
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = lemma.pc
+AM_CPPFLAGS=-pedantic -ansi -Wall -Werror -I$(top_srcdir) $(BOOST_CPPFLAGS)
 
-SUBDIRS=\
-	qsat \
-	attribute_map \
-	$(MAYBE_TEST)
-
-EXTRA_DIST=\
-        COPYING \
-        INSTALL \
-	README.md
+TESTS=\
+	basic_channel_test \
+	basic_subchannel_test

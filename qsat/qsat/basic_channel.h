@@ -28,7 +28,7 @@
 #ifndef LEMMA_QSAT_BASIC_CHANNEL_H
 #define LEMMA_QSAT_BASIC_CHANNEL_H
 
-#include <boost/units/quantity.hpp>
+#include "detail/value_cast.h"
 
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/bool.hpp>
@@ -73,32 +73,6 @@ class has_reserve_capability {
     typedef mpl::bool_<sizeof(test<T>(0)) == sizeof(char)> type;
 };
 
-
-/** \brief Generic construction cast
- *  \tparam T The type to construct
- *  \internal Generically construct one type from another.
- */
-template<typename T>
-struct value_cast {
-  /** construct T from \e val */
-  template<typename U>
-  static T construct(const U &val) {
-    return static_cast<T>(val);
-  }
-};
-
-/** \brief Generic construction cast
- *  \tparam Unit The unit type of boost::units::quantity
- *  \tparam Y The value_type (or precision) of boost::units::quantity
- *  \internal Specialization to construct a boost::unit from it's value_type
- */
-template<typename Unit, typename Y>
-struct value_cast<boost::units::quantity<Unit,Y> > {
-  /** construct <tt>quantity<Unit,Y></tt> from \e val */
-  static boost::units::quantity<Unit,Y> construct(const Y &val) {
-    return boost::units::quantity<Unit,Y>(val*Unit());
-  }
-};
 
 }
 

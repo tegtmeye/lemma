@@ -37,9 +37,12 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_INSTALL
+AC_PROG_LIBTOOL
 
 # We need boost
 BOOST_REQUIRE([1.46])
+BOOST_VARIANT
+BOOST_TEST
 
 # Check for single testsuite                                                    
 AC_ARG_WITH([single-testsuite],
@@ -55,7 +58,9 @@ AM_CONDITIONAL([SINGLE_TESTSUITE], [test "x$with_single_testsuite" == xyes])
 AC_CONFIG_FILES( \
 		 lemma.pc \
 		 qsat/Makefile \
+		 qsat/tests/Makefile \
 		 attribute_map/Makefile \
+		 tests/Makefile \
 		 Makefile)
 
 AC_OUTPUT

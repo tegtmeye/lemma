@@ -25,16 +25,40 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LEMMA_QSAT_QSAT_H
-#define LEMMA_QSAT_QSAT_H
+#ifndef LEMMA_QSAT_TEST_TEST_TYPES_H
+#define LEMMA_QSAT_TEST_TEST_TYPES_H
 
-#if defined(__cplusplus)
+#include <lemma/qsat/basic_channel.h>
 
-#include "lemma/qsat/basic_channel.h"
-#include "lemma/qsat/channel_base.h"
+#include <list>
 
-#endif
+/** \file
+ *  Files with the name '(*)/tests/test_types.h/ are ignored by Doxygen. Put types and
+ *  other things that don't make sense to document into a file named this.
+ */
+
+namespace lemma {
+namespace qsat {
+namespace test {
+
+/** \file
+ *  Files with the name '(*)/tests/test_types.h/ are ignored by Doxygen. Put types and
+ *  other things that don't make sense to document into a file named this.
+ */
+
+/** basic channel with float precision */
+typedef basic_channel<float,float,float> float_channel;
+
+/** basic channel with float precision using std::list as an underlying container*/
+typedef basic_channel<float,float,float,std::list> float_list_channel;
 
 
+static const float mags[] = {1.0,2.0,3.0,4.0,5.0};
+static const float fill[] = {0.2,0.2,0.2,0.2,0.2};
+
+
+}
+}
+}
 
 #endif

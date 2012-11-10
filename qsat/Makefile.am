@@ -23,8 +23,20 @@
 #  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+if SINGLE_TESTSUITE
+MAYBE_TEST=
+else
+MAYBE_TEST=tests
+endif
+
+SUBDIRS= \
+	$(MAYBE_TEST)
+
 pkginclude_HEADERS= \
 	qsat.h
 
 nobase_pkginclude_HEADERS=\
-	qsat/basic_channel.h
+	qsat/basic_channel.h \
+	qsat/channel_base.h \
+	qsat/detail/value_cast.h
+
