@@ -28,7 +28,10 @@
 #ifndef LEMMA_QSAT_TEST_TEST_TYPES_H
 #define LEMMA_QSAT_TEST_TEST_TYPES_H
 
-#include <lemma/qsat/basic_channel.h>
+#include <qsat/basic_channel.h>
+#include <qsat/channel_base.h>
+
+#include <boost/mpl/vector.hpp>
 
 #include <list>
 
@@ -41,16 +44,25 @@ namespace lemma {
 namespace qsat {
 namespace test {
 
+namespace mpl = boost::mpl;
+
 /** \file
  *  Files with the name '(*)/tests/test_types.h/ are ignored by Doxygen. Put types and
  *  other things that don't make sense to document into a file named this.
  */
 
-/** basic channel with float precision */
-typedef basic_channel<float,float,float> float_channel;
+/** basic_channel with float precision */
+typedef basic_channel<float,float,float> float_basic_channel;
 
-/** basic channel with float precision using std::list as an underlying container*/
+/** basic_channel with float precision using std::list as an underlying container*/
 typedef basic_channel<float,float,float,std::list> float_list_channel;
+
+
+/** channel_base with float precision and float underlying type*/
+typedef channel_base<float,float,float,mpl::vector<float> > float_channel_base;
+
+/** channel_base with float precision using std::list as an underlying container*/
+typedef channel_base<float,float,float,mpl::vector<float>,std::list> float_list_channel_base;
 
 
 static const float mags[] = {1.0,2.0,3.0,4.0,5.0};

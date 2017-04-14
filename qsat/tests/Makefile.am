@@ -27,7 +27,8 @@ master_suite=$(top_srcdir)/tests/master_suite.cc
 
 check_PROGRAMS=\
 	basic_channel_test \
-	basic_subchannel_test
+	basic_subchannel_test \
+	channel_base_test
 
 basic_channel_test_SOURCES=$(master_suite) \
 	basic_channel_test.cc test_types.h
@@ -39,8 +40,15 @@ basic_subchannel_test_SOURCES=$(master_suite) \
 basic_subchannel_test_LDFLAGS=$(BOOST_UNIT_TEST_FRAMEWORK_LDFLAGS)
 basic_subchannel_test_LDADD=$(BOOST_UNIT_TEST_FRAMEWORK_LIBS)
 
-AM_CPPFLAGS=-pedantic -ansi -Wall -Werror -I$(top_srcdir) $(BOOST_CPPFLAGS)
+channel_base_test_SOURCES=$(master_suite) \
+	channel_base_test.cc test_types.h
+channel_base_test_LDFLAGS=$(BOOST_UNIT_TEST_FRAMEWORK_LDFLAGS)
+channel_base_test_LDADD=$(BOOST_UNIT_TEST_FRAMEWORK_LIBS)
+
+AM_CPPFLAGS=-pedantic -ansi -Wall -Werror -I$(top_srcdir)/qsat $(BOOST_CPPFLAGS)
 
 TESTS=\
 	basic_channel_test \
-	basic_subchannel_test
+	basic_subchannel_test \
+	channel_base_test
+

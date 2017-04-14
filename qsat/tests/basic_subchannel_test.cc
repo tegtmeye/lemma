@@ -30,7 +30,7 @@
 
 #include "test_types.h"
 
-#include <lemma/qsat/basic_channel.h>
+#include <qsat/basic_channel.h>
 
 /** \file
  *  \brief Unit tests for basic_subchannel
@@ -46,21 +46,21 @@ BOOST_AUTO_TEST_SUITE( channel_suite )
  */
 BOOST_AUTO_TEST_CASE( basic_channel_subchannel_test )
 {
-  float_channel bc1(mags,mags+sizeof(mags)/sizeof(float),.5,-.2);
-  const float_channel &cbc1 = bc1;
-  float_channel bc2 = bc1;
-  const float_channel &cbc2 = bc2;
+  float_basic_channel bc1(mags,mags+sizeof(mags)/sizeof(float),.5,-.2);
+  const float_basic_channel &cbc1 = bc1;
+  float_basic_channel bc2 = bc1;
+  const float_basic_channel &cbc2 = bc2;
 
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc1.begin(),cbc1.end(),
     mags,mags+sizeof(mags)/sizeof(float));
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc2.begin(),cbc2.end(),
     mags,mags+sizeof(mags)/sizeof(float));
   
-  float_channel::iterator start = bc2.begin();
+  float_basic_channel::iterator start = bc2.begin();
   std::advance(start,2);
-  float_channel::iterator stop = bc2.begin();
+  float_basic_channel::iterator stop = bc2.begin();
   std::advance(stop,4);
-  float_channel::subchannel_type sub = bc2.subchannel(start,stop);
+  float_basic_channel::subchannel_type sub = bc2.subchannel(start,stop);
   
   BOOST_CHECK(&cbc1.front() != &cbc2.front());
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc1.begin(),cbc1.end(),cbc2.begin(),cbc2.end());
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE( basic_channel_subchannel_test )
   BOOST_CHECK(sub.rend().base() == sub.begin());
   BOOST_CHECK_EQUAL(sub.front(), *start);
   
-  float_channel::iterator back = stop;
+  float_basic_channel::iterator back = stop;
   --stop;
   BOOST_CHECK_EQUAL(sub.back(), *stop);
   *sub.begin() = 42.0;
@@ -92,21 +92,21 @@ BOOST_AUTO_TEST_CASE( basic_channel_subchannel_assign_test )
     -1,-1,-1,-1
   };
 
-  float_channel bc1(mags,mags+sizeof(mags)/sizeof(float),.5,-.2);
-  const float_channel &cbc1 = bc1;
-  float_channel bc2 = bc1;
-  const float_channel &cbc2 = bc2;
+  float_basic_channel bc1(mags,mags+sizeof(mags)/sizeof(float),.5,-.2);
+  const float_basic_channel &cbc1 = bc1;
+  float_basic_channel bc2 = bc1;
+  const float_basic_channel &cbc2 = bc2;
 
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc1.begin(),cbc1.end(),
     mags,mags+sizeof(mags)/sizeof(float));
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc2.begin(),cbc2.end(),
     mags,mags+sizeof(mags)/sizeof(float));
   
-  float_channel::iterator start = bc2.begin();
+  float_basic_channel::iterator start = bc2.begin();
   std::advance(start,2);
-  float_channel::iterator stop = bc2.begin();
+  float_basic_channel::iterator stop = bc2.begin();
   std::advance(stop,4);
-  float_channel::subchannel_type sub = bc2.subchannel(start,stop);
+  float_basic_channel::subchannel_type sub = bc2.subchannel(start,stop);
   
   sub.assign(values,values+std::distance(start,stop));
   BOOST_CHECK_EQUAL_COLLECTIONS(start,stop,sub.begin(),sub.end());
@@ -193,21 +193,21 @@ BOOST_AUTO_TEST_CASE( basic_channel_list_subchannel_assign_test )
  */
 BOOST_AUTO_TEST_CASE( basic_channel_const_subchannel_test )
 {
-  float_channel bc1(mags,mags+sizeof(mags)/sizeof(float),.5,-.2);
-  const float_channel &cbc1 = bc1;
-  float_channel bc2 = bc1;
-  const float_channel &cbc2 = bc2;
+  float_basic_channel bc1(mags,mags+sizeof(mags)/sizeof(float),.5,-.2);
+  const float_basic_channel &cbc1 = bc1;
+  float_basic_channel bc2 = bc1;
+  const float_basic_channel &cbc2 = bc2;
 
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc1.begin(),cbc1.end(),
     mags,mags+sizeof(mags)/sizeof(float));
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc2.begin(),cbc2.end(),
     mags,mags+sizeof(mags)/sizeof(float));
   
-  float_channel::const_iterator start = cbc2.begin();
+  float_basic_channel::const_iterator start = cbc2.begin();
   std::advance(start,2);
-  float_channel::const_iterator stop = cbc2.begin();
+  float_basic_channel::const_iterator stop = cbc2.begin();
   std::advance(stop,4);
-  float_channel::const_subchannel_type sub = cbc2.subchannel(start,stop);
+  float_basic_channel::const_subchannel_type sub = cbc2.subchannel(start,stop);
   
   BOOST_CHECK(&cbc1.front() == &cbc2.front());
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc1.begin(),cbc1.end(),cbc2.begin(),cbc2.end());
@@ -261,21 +261,21 @@ BOOST_AUTO_TEST_CASE( basic_channel_list_const_subchannel_test )
  */
 BOOST_AUTO_TEST_CASE( basic_channel_list_subchannel_frequency_test )
 {
-  float_channel bc1(mags,mags+sizeof(mags)/sizeof(float),.5,-.2);
-  const float_channel &cbc1 = bc1;
-  float_channel bc2 = bc1;
-  const float_channel &cbc2 = bc2;
+  float_basic_channel bc1(mags,mags+sizeof(mags)/sizeof(float),.5,-.2);
+  const float_basic_channel &cbc1 = bc1;
+  float_basic_channel bc2 = bc1;
+  const float_basic_channel &cbc2 = bc2;
 
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc1.begin(),cbc1.end(),
     mags,mags+sizeof(mags)/sizeof(float));
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc2.begin(),cbc2.end(),
     mags,mags+sizeof(mags)/sizeof(float));
   
-  float_channel::const_iterator start = cbc2.begin();
+  float_basic_channel::const_iterator start = cbc2.begin();
   std::advance(start,2);
-  float_channel::const_iterator stop = cbc2.begin();
+  float_basic_channel::const_iterator stop = cbc2.begin();
   std::advance(stop,4);
-  float_channel::const_subchannel_type sub = cbc2.subchannel(start,stop);
+  float_basic_channel::const_subchannel_type sub = cbc2.subchannel(start,stop);
 
   BOOST_CHECK_EQUAL(&(cbc2.frequency()), &sub.frequency());
 }
@@ -284,21 +284,21 @@ BOOST_AUTO_TEST_CASE( basic_channel_list_subchannel_frequency_test )
  */
 BOOST_AUTO_TEST_CASE( basic_channel_list_subchannel_epoch_test )
 {
-  float_channel bc1(mags,mags+sizeof(mags)/sizeof(float),10,-.2);
-  const float_channel &cbc1 = bc1;
-  float_channel bc2 = bc1;
-  const float_channel &cbc2 = bc2;
+  float_basic_channel bc1(mags,mags+sizeof(mags)/sizeof(float),10,-.2);
+  const float_basic_channel &cbc1 = bc1;
+  float_basic_channel bc2 = bc1;
+  const float_basic_channel &cbc2 = bc2;
 
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc1.begin(),cbc1.end(),
     mags,mags+sizeof(mags)/sizeof(float));
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc2.begin(),cbc2.end(),
     mags,mags+sizeof(mags)/sizeof(float));
   
-  float_channel::const_iterator start = cbc2.begin();
+  float_basic_channel::const_iterator start = cbc2.begin();
   std::advance(start,2);
-  float_channel::const_iterator stop = cbc2.begin();
+  float_basic_channel::const_iterator stop = cbc2.begin();
   std::advance(stop,4);
-  float_channel::const_subchannel_type sub = cbc2.subchannel(start,stop);
+  float_basic_channel::const_subchannel_type sub = cbc2.subchannel(start,stop);
 
   BOOST_CHECK_SMALL(cbc2.epoch()+float(2)/10-sub.epoch(), .00000001f);
 }
@@ -307,22 +307,22 @@ BOOST_AUTO_TEST_CASE( basic_channel_list_subchannel_epoch_test )
  */
 BOOST_AUTO_TEST_CASE( basic_channel_list_subchannel_subchannel_test )
 {
-  float_channel bc1(mags,mags+sizeof(mags)/sizeof(float),10,-.2);
-  const float_channel &cbc1 = bc1;
-  float_channel bc2 = bc1;
-  const float_channel &cbc2 = bc2;
+  float_basic_channel bc1(mags,mags+sizeof(mags)/sizeof(float),10,-.2);
+  const float_basic_channel &cbc1 = bc1;
+  float_basic_channel bc2 = bc1;
+  const float_basic_channel &cbc2 = bc2;
 
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc1.begin(),cbc1.end(),
     mags,mags+sizeof(mags)/sizeof(float));
   BOOST_CHECK_EQUAL_COLLECTIONS(cbc2.begin(),cbc2.end(),
     mags,mags+sizeof(mags)/sizeof(float));
   
-  float_channel::const_iterator start = cbc2.begin();
+  float_basic_channel::const_iterator start = cbc2.begin();
   std::advance(start,2);
-  float_channel::const_iterator stop = cbc2.begin();
+  float_basic_channel::const_iterator stop = cbc2.begin();
   std::advance(stop,4);
   
-  typedef float_channel::const_subchannel_type const_subchannel_type;
+  typedef float_basic_channel::const_subchannel_type const_subchannel_type;
   const_subchannel_type sub = cbc2.subchannel(start,stop);
 
   const_subchannel_type::iterator first = sub.begin();

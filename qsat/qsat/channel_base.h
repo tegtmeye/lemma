@@ -30,6 +30,7 @@
 
 #include "basic_channel.h"
 #include "detail/value_cast.h"
+#include "detail/channel_base_detail.h"
 
 #include <boost/variant.hpp>
 
@@ -52,8 +53,6 @@
 
 #include <boost/type_traits/is_same.hpp>
 
-#include <iostream>
-
 namespace lemma {
 namespace qsat {
 
@@ -61,29 +60,37 @@ namespace b = boost;
 namespace bf = boost::fusion;
 namespace mpl = boost::mpl;
 
-namespace detail {
-
-template<typename FrequencyT, typename TimeT>
-struct make_basic_channel {
-  template<typename T>
-  struct apply {
-    typedef basic_channel<T,FrequencyT,TimeT> type;
-  };
-};
-
-}
-
+namespace cbdetail = detail::channel_base;
 
 template <typename MagnitudeT, typename FrequencyT, typename TimeT,
   typename InternalPrecisionSequence, template<typename T, typename A>
   class Container = std::vector, template<typename T>
   class Allocator = std::allocator>
 class channel_base {
+  private:
+    typedef typename mpl::transform<InternalPrecisionSequence,
+      cbdetail::make_basic_channel<FrequencyT,TimeT> >::type channel_types;
+  
+    typedef typename boost::make_variant_over<channel_types>::type variant_type;
+
+    typedef typename mpl::at_c<typename variant_type::types,0>::type default_channel_type;
+
+  
   public:
     /** lvalue of MagnitudeT */
-    typedef typename Container<MagnitudeT,Allocator<MagnitudeT> >::reference reference;
+    //typedef typename Container<MagnitudeT,Allocator<MagnitudeT> >::reference reference;
+
+    typedef cbdetail::reference_adapter<MagnitudeT,
+      typename Container<MagnitudeT,Allocator<MagnitudeT> >::size_type,
+      variant_type> reference;
+
     /** const lvalue of MagnitudeT */
-    typedef typename Container<MagnitudeT,Allocator<MagnitudeT> >::const_reference const_reference;
+//    typedef typename Container<MagnitudeT,Allocator<MagnitudeT> >::const_reference const_reference;
+    typedef cbdetail::const_reference_adapter<MagnitudeT,
+      typename Container<MagnitudeT,Allocator<MagnitudeT> >::size_type,
+      variant_type> const_reference;
+
+
     /** iterator type pointing to MagnitudeT */
     typedef typename Container<MagnitudeT,Allocator<MagnitudeT> >::iterator iterator;
     /** iterator type pointing to const MagnitudeT */
@@ -509,13 +516,6 @@ class channel_base {
       b::reference_wrapper<const channel_base<M,F,T,I,C,A> > other;
     };
   
-    typedef typename mpl::transform<InternalPrecisionSequence,
-      detail::make_basic_channel<FrequencyT,TimeT> >::type channel_types;
-  
-    typedef typename boost::make_variant_over<channel_types>::type variant_type;
-
-    typedef typename mpl::at_c<typename variant_type::types,0>::type default_channel_type;
-
     variant_type channel_variant;
 };
 
@@ -570,6 +570,94 @@ inline channel_base<MagnitudeT,FrequencyT,TimeT,InternalPrecisionSequence,Contai
 {
   boost::apply_visitor(adapted_copy<M,F,T,I,C,A>(rhs),channel_variant);
 }
+
+template <typename MagnitudeT, typename FrequencyT, typename TimeT,
+  typename InternalPrecisionSequence, template<typename T, typename A>
+  class Container, template<typename T> class Allocator>
+inline channel_base<MagnitudeT,FrequencyT,TimeT,InternalPrecisionSequence,Container,Allocator>::
+  ~channel_base(void)
+{
+}
+
+
+
+
+
+
+
+
+
+template <typename MagnitudeT, typename FrequencyT, typename TimeT,
+  typename InternalPrecisionSequence, template<typename T, typename A>
+  class Container, template<typename T> class Allocator>
+inline typename channel_base<MagnitudeT,FrequencyT,TimeT,InternalPrecisionSequence,Container,Allocator>::size_type
+  channel_base<MagnitudeT,FrequencyT,TimeT,InternalPrecisionSequence,Container,Allocator>::
+    size(void) const
+{
+  return boost::apply_visitor(
+    cbdetail::size_visitor<size_type>(),channel_variant);
+}
+
+
+
+template <typename MagnitudeT, typename FrequencyT, typename TimeT,
+  typename InternalPrecisionSequence, template<typename T, typename A>
+  class Container, template<typename T> class Allocator>
+inline bool channel_base<MagnitudeT,FrequencyT,TimeT,InternalPrecisionSequence,Container,Allocator>::
+  empty(void) const
+{
+  return boost::apply_visitor(cbdetail::empty_visitor(),channel_variant);
+}
+
+
+template <typename MagnitudeT, typename FrequencyT, typename TimeT,
+  typename InternalPrecisionSequence, template<typename T, typename A>
+  class Container, template<typename T> class Allocator>
+inline typename channel_base<MagnitudeT,FrequencyT,TimeT,InternalPrecisionSequence,Container,Allocator>::const_reference
+  channel_base<MagnitudeT,FrequencyT,TimeT,InternalPrecisionSequence,Container,Allocator>::
+    front(void) const
+{
+  return const_reference(0,channel_variant);
+}
+
+
+
+
+template <typename MagnitudeT, typename FrequencyT, typename TimeT,
+  typename InternalPrecisionSequence, template<typename T, typename A>
+  class Container, template<typename T> class Allocator>
+inline void
+  channel_base<MagnitudeT,FrequencyT,TimeT,InternalPrecisionSequence,Container,Allocator>::
+    clear(void)
+{
+  return boost::apply_visitor(cbdetail::clear_visitor(),channel_variant);
+}
+
+
+template <typename MagnitudeT, typename FrequencyT, typename TimeT,
+  typename InternalPrecisionSequence, template<typename T, typename A>
+  class Container, template<typename T> class Allocator>
+inline const typename channel_base<MagnitudeT,FrequencyT,TimeT,InternalPrecisionSequence,Container,Allocator>::frequency_type &
+  channel_base<MagnitudeT,FrequencyT,TimeT,InternalPrecisionSequence,Container,Allocator>::
+    frequency(void) const
+{
+  return boost::apply_visitor(
+    cbdetail::frequency_visitor<frequency_type>(),channel_variant);
+}
+
+
+
+template <typename MagnitudeT, typename FrequencyT, typename TimeT,
+  typename InternalPrecisionSequence, template<typename T, typename A>
+  class Container, template<typename T> class Allocator>
+inline const typename channel_base<MagnitudeT,FrequencyT,TimeT,InternalPrecisionSequence,Container,Allocator>::time_type &
+  channel_base<MagnitudeT,FrequencyT,TimeT,InternalPrecisionSequence,Container,Allocator>::
+    epoch(void) const
+{
+  return boost::apply_visitor(
+    cbdetail::epoch_visitor<time_type>(),channel_variant);
+}
+
 
 }
 }

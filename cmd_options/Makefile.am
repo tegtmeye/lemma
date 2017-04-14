@@ -1,4 +1,4 @@
-#  Copyright (c) 2012, Mike Tegtmeyer
+#  Copyright (c) 2017, Mike Tegtmeyer
 #  All rights reserved.
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted provided that the following conditions are met:
@@ -23,41 +23,9 @@
 #  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-noinst_HEADERS=
+pkginclude_HEADERS= \
+	cmd_options.h
 
-
-qsat_dir=$(top_srcdir)/qsat
-qsat_tests=\
-	$(qsat_dir)/tests/test_types.h \
-	$(qsat_dir)/tests/basic_channel_test.cc \
-	$(qsat_dir)/tests/basic_subchannel_test.cc \
-	$(qsat_dir)/tests/channel_base_test.cc
-
-
-check_PROGRAMS= \
-	lemma_test
-
-
-lemma_test_SOURCES=\
-	master_suite.cc \
-	$(qsat_tests)
-
-lemma_test_LDFLAGS=$(BOOST_UNIT_TEST_FRAMEWORK_LDFLAGS)
-lemma_test_LDADD=$(BOOST_UNIT_TEST_FRAMEWORK_LIBS)
-
-AM_CPPFLAGS=-pedantic -ansi -Wall -Werror \
-	-I$(top_srcdir) \
-	-I$(qsat_dir) \
-	$(BOOST_CPPFLAGS)
-
-TESTS= \
-	lemma_test_wrapper.sh
-
-EXTRA_DIST= \
-	lemma_test_wrapper.sh
-
-CLEANFILES= \
-	lemma_test.xml
-
-DISTCLEANFILES= \
-	lemma_test.xml
+#nobase_pkginclude_HEADERS=\
+	attribute_map/attribute_map.h \
+	attribute_map/attribute_requirements.h
