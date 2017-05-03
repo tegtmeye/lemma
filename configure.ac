@@ -44,6 +44,13 @@ BOOST_REQUIRE([1.46])
 BOOST_VARIANT
 BOOST_TEST
 
+# Use SYSTEM_BOOST_CPPFLAGS to add includes with -isystem instead of -I
+# to suppress boost compiler warnings
+AC_SUBST([SYSTEM_BOOST_CPPFLAGS], [`echo $BOOST_CPPFLAGS | sed -e 's|^-I|-isystem |g' -e 's|[[:space:]]\{1,\}-I| -isystem |g'`])
+
+# Check for C++11 support
+AX_CXX_COMPILE_STDCXX([11],[noext],[mandatory])
+
 # Check for single testsuite                                                    
 AC_ARG_WITH([single-testsuite],
 [AS_HELP_STRING([--with-single-testsuite],
@@ -61,6 +68,7 @@ AC_CONFIG_FILES( \
 		 qsat/tests/Makefile \
 		 attribute_map/Makefile \
 		 cmd_options/Makefile \
+		 cmd_options/tests/Makefile \
 		 tests/Makefile \
 		 Makefile)
 

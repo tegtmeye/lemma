@@ -45,7 +45,7 @@ channel_base_test_SOURCES=$(master_suite) \
 channel_base_test_LDFLAGS=$(BOOST_UNIT_TEST_FRAMEWORK_LDFLAGS)
 channel_base_test_LDADD=$(BOOST_UNIT_TEST_FRAMEWORK_LIBS)
 
-AM_CPPFLAGS=-pedantic -ansi -Wall -Werror -I$(top_srcdir)/qsat $(BOOST_CPPFLAGS)
+AM_CPPFLAGS=-pedantic -ansi -Wall -Werror -Wno-unused-local-typedefs -I$(top_srcdir)/qsat $(BOOST_CPPFLAGS)
 
 TESTS=\
 	basic_channel_test \

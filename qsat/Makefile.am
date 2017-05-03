@@ -29,8 +29,8 @@ else
 MAYBE_TEST=tests
 endif
 
-SUBDIRS= \
-	$(MAYBE_TEST)
+SUBDIRS=
+#	$(MAYBE_TEST)
 
 pkginclude_HEADERS= \
 	qsat.h
