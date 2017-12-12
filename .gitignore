@@ -37,6 +37,7 @@ libtool
 stamp-h1
 .deps
 .libs
+*.trs
 
 *.pc
 
