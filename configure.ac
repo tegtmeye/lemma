@@ -67,8 +67,6 @@ AC_CONFIG_FILES( \
 		 qsat/Makefile \
 		 qsat/tests/Makefile \
 		 attribute_map/Makefile \
-		 cmd_options/Makefile \
-		 cmd_options/tests/Makefile \
 		 tests/Makefile \
 		 Makefile)
 

@@ -41,7 +41,6 @@ pkgconfig_DATA = lemma.pc
 SUBDIRS=\
 	qsat \
 	attribute_map \
-	cmd_options \
 	$(MAYBE_TEST)
 
 EXTRA_DIST=\
